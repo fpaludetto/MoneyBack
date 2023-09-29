@@ -124,7 +124,7 @@ public class CashbackService {
 		
 		CashbackToken newToken = new CashbackToken();
 		newToken.setCliente(cliente);
-		newToken.setValor(total);
+		newToken.setValor(value);
 		
 		cashbackTokenRepository.save(newToken);
 		

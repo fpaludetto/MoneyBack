@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -39,6 +41,7 @@ public class AbstractDomain implements IdentifiableDomain<String>, Serializable 
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public boolean isNew() {
 		return this.id == null;
 	}

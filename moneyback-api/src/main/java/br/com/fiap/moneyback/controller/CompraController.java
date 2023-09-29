@@ -34,8 +34,8 @@ public class CompraController  {
 	@Autowired	
 	private CashbackService cashbackService;
 	
-	@GetMapping(path = "/total-cashback")
-	public Double calculaCashback(String idCliente) {
+	@GetMapping(path = "/total-cashback/{idCliente}")
+	public Double calculaCashback(@PathVariable @NotNull String idCliente) {
 		Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new BusinessException("Cliente não encontrado"));
 		return cashbackService.getCashbackTotal(cliente, false);
 	}
@@ -52,14 +52,17 @@ public class CompraController  {
 	}
 	
 	@PostMapping
-	public void executaAbastecimento(@RequestBody ItemExtrato item) {
+	public ItemExtrato executaAbastecimento(@RequestBody ItemExtrato item) {
 		
-		Cliente cliente = clienteRepository.findById(item.getId()).orElseThrow(() -> new BusinessException("Cliente não encontrado"));
+		Cliente cliente = clienteRepository.findById(item.getCliente().getId()).orElseThrow(() -> new BusinessException("Cliente não encontrado"));
 		item.setCliente(cliente);
 		item.setValorTotal(item.getValorItem());
 		
-		
-		cashbackService.geraCashbackItem(cliente, item.getValorItem());
+		CashbackItem cashbackItem = cashbackService.geraCashbackItem(cliente, item.getValorItem());
+		if(cashbackItem != null) {
+			item.setCashbackItem(cashbackItem);
+			item.setValorCashback(cashbackItem.getValor());
+		}
 		
 		//Aplica cashback se houver token do item. 
 		if(item.getCashbackToken() != null) {
@@ -70,7 +73,7 @@ public class CompraController  {
 			cashbackService.setTokenUsed(token);
 		}
 		
-		itemRepository.save(item);
+		return itemRepository.save(item);
 		
 	}
 	

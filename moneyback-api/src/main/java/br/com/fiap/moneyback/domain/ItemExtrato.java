@@ -30,10 +30,14 @@ public class ItemExtrato extends AbstractDomain{
 	@Column(name = "ds_item")
 	private String descricao;
 	
-	@Column(name = "id_cashback_token")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_cashback_token", foreignKey=@ForeignKey(name="fk_item_extrato_cashback_token"))
+	@JoinColumn(name = "id_cashback_token", nullable = true, foreignKey=@ForeignKey(name="fk_item_extrato_cashback_token"))
 	private CashbackToken cashbackToken;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cashback_item", nullable = true, foreignKey=@ForeignKey(name="fk_item_extrato_cashback_item"))
+	private CashbackItem cashbackItem;
+
 	
 	@Column(name = "vlr_cashback")
 	private Double valorCashback;

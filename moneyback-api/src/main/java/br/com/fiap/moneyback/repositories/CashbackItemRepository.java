@@ -12,7 +12,7 @@ import br.com.fiap.moneyback.domain.Cliente;
 @Repository
 public interface CashbackItemRepository extends JpaRepository<CashbackItem, String> {
 
-	@Query(value = "from CashbackItem where dtExpiracao <= CURRENT_DATE and dtUtilizacao is null and cliente = :cliente")
+	@Query(value = "from CashbackItem where dtExpiracao >= CURRENT_DATE and dtUtilizacao is null and cliente = :cliente")
 	List<CashbackItem> getAllActive(Cliente cliente);
 
 }
