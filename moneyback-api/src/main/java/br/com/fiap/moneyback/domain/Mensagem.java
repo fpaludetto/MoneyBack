@@ -14,9 +14,13 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Getter
+@Setter
 public class Mensagem extends AbstractDomain {
 
 	@NotBlank(message = "Código obrigatório!")
@@ -39,38 +43,5 @@ public class Mensagem extends AbstractDomain {
 	@Size(max = 300)
 	@Column(name = "mensagem")
 	private String mensagem;
-
-	// Getters and Setters
-	public String getCd_mensagem() {
-		return cd_mensagem;
-	}
-
-	public void setCd_mensagem(String cd_mensagem) {
-		this.cd_mensagem = cd_mensagem;
-	}
-
-	public Cliente getCd_cliente() {
-		return cd_cliente;
-	}
-
-	public void setCd_cliente(Cliente cd_cliente) {
-		this.cd_cliente = cd_cliente;
-	}
-
-	public Calendar getDh_mensagem() {
-		return dh_mensagem;
-	}
-
-	public void setDh_mensagem(Calendar dh_mensagem) {
-		this.dh_mensagem = dh_mensagem;
-	}
-
-	public String getMensagem() {
-		return mensagem;
-	}
-
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
-	}
 
 }

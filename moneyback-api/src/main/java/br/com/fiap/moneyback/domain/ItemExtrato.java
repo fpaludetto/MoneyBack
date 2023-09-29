@@ -1,117 +1,50 @@
 package br.com.fiap.moneyback.domain;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Getter
+@Setter
+@Table(name = "item_extrato")
 public class ItemExtrato extends AbstractDomain{
 
-	@NotBlank(message = "Código obrigatório!")
-	@Size(max = 10)
-	@Column(name = "cd_item_extrato")
-	private String cd_item_extrato;
-
-	@NotBlank(message = "Código obrigatório!")
-	@Size(max = 10)
-	@JoinColumn(name = "cd_cliente")
-	@ManyToOne
-	private Cliente cd_cliente;
+		
+	@NotNull(message = "Cliente obrigatório!")
+	@JoinColumn(name = "id_cliente", foreignKey=@ForeignKey(name="fk_item_extrato_cliente"))
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Cliente cliente;
 	
-	//@Min(value = 0, message = "Preço não pode ser negativo")
-	@Column(name = "vlr_item_Extrato")
-	private float vlr_item_Extrato;
+	@NotNull(message = "Descricação do item deve ser obrigatório.")
+	@Column(name = "ds_item")
+	private String descricao;
 	
-	@Past
-	@Column(name = "dt_lancamento")
-	private LocalDate dt_lancamento;
+	@Column(name = "id_cashback_token")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cashback_token", foreignKey=@ForeignKey(name="fk_item_extrato_cashback_token"))
+	private CashbackToken cashbackToken;
 	
-	@Min(value = 0, message = "Valor do CashBack não pode ser negativo")
 	@Column(name = "vlr_cashback")
-	private double vlr_cashback;
-		
-	@Past
-	@Column(name = "dt_expr_cashback")
-	private LocalDate dt_expr_cashback;
+	private Double valorCashback;
 	
-	@NotBlank(message = "Código obrigatório!")
-	@Size(max = 10)
-	@JoinColumn(name = "cd_status_cashback")
-	@OneToOne
-	private StatusCashback cd_status_cashback;
-
+	@NotNull(message = "Valor do item deve ser obrigatório.")
+	@Column(name = "vlr_item")
+	private Double valorItem;
 	
-	
-	
-	//Getters and Setters
-	public String getCd_item_extrato() {
-		return cd_item_extrato;
-	}
+	@NotNull(message = "Valor do item deve ser obrigatório.")
+	@Column(name = "vlr_total")
+	private Double valorTotal;
 
-	public void setCd_item_extrato(String cd_item_extrato) {
-		this.cd_item_extrato = cd_item_extrato;
-	}
-
-	public Cliente getCd_cliente() {
-		return cd_cliente;
-	}
-
-	public void setCd_cliente(Cliente cd_cliente) {
-		this.cd_cliente = cd_cliente;
-	}
-
-	public float getVlr_item_Extrato() {
-		return vlr_item_Extrato;
-	}
-
-	public void setVlr_item_Extrato(float vlr_item_Extrato) {
-		this.vlr_item_Extrato = vlr_item_Extrato;
-	}
-
-	public LocalDate getDt_lancamento() {
-		return dt_lancamento;
-	}
-
-	public void setDt_lancamento(LocalDate dt_lancamento) {
-		this.dt_lancamento = dt_lancamento;
-	}
-
-	public double getVlr_cashback() {
-		return vlr_cashback;
-	}
-
-	public void setVlr_cashback(double vlr_cashback) {
-		this.vlr_cashback = vlr_cashback;
-	}
-
-	public LocalDate getDt_expr_cashback() {
-		return dt_expr_cashback;
-	}
-
-	public void setDt_expr_cashback(LocalDate dt_expr_cashback) {
-		this.dt_expr_cashback = dt_expr_cashback;
-	}
-
-	public StatusCashback getCd_status_cashback() {
-		return cd_status_cashback;
-	}
-
-	public void setCd_status_cashback(StatusCashback cd_status_cashback) {
-		this.cd_status_cashback = cd_status_cashback;
-	}
-	
-		
-	
 	
 }

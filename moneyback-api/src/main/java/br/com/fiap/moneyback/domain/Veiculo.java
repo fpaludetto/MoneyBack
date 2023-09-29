@@ -4,25 +4,26 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Getter
+@Setter
 public class Veiculo extends AbstractDomain{
 
-	@NotBlank(message = "Código obrigatório!")
-	@Size(max = 10)
-	@Column(name = "cd_veiculo")
-	private String cd_veiculo;
-	
-	@NotBlank(message = "Código obrigatório!")
-	@Size(max = 10)
-	@JoinColumn(name = "cd_cliente")
-	@ManyToOne
-	private Cliente cd_cliente;
+	@NotNull(message = "Código obrigatório!")
+	@JoinColumn(name = "id_cliente", foreignKey=@ForeignKey(name="fk_veiculo_cliente"))
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Cliente cliente;
 	
 	@NotBlank(message = "Marca obrigatório!")
 	@Size(max = 20)
@@ -38,47 +39,9 @@ public class Veiculo extends AbstractDomain{
 	@Size(max = 10)
 	@Column(name = "placa")
 	private String placa;
-
 	
-	//Getters and Setters
-	public String getCd_veiculo() {
-		return cd_veiculo;
-	}
+	@Column(name = "ativo")
+	private Boolean ativo;
 
-	public void setCd_veiculo(String cd_veiculo) {
-		this.cd_veiculo = cd_veiculo;
-	}
-
-	public Cliente getCd_cliente() {
-		return cd_cliente;
-	}
-
-	public void setCd_cliente(Cliente cd_cliente) {
-		this.cd_cliente = cd_cliente;
-	}
-
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
-	public String getModelo() {
-		return modelo;
-	}
-
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
-	}
-
-	public String getPlaca() {
-		return placa;
-	}
-
-	public void setPlaca(String placa) {
-		this.placa = placa;
-	}
 		
 }

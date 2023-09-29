@@ -1,4 +1,4 @@
-package br.com.fiap.moneyback.controller;
+package br.com.fiap.moneyback.controller.crud;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

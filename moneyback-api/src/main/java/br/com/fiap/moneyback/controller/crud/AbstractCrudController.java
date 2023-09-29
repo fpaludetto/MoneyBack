@@ -1,4 +1,4 @@
-package br.com.fiap.moneyback.controller;
+package br.com.fiap.moneyback.controller.crud;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
