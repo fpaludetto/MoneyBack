@@ -92,6 +92,7 @@ public class CashbackService {
 		return items.stream().mapToDouble((a) -> a.getValor()).sum();
 	}
 	
+	
 	public CashbackToken geraCashbackToken(Cliente cliente, Double value) {
 		
 		List<CashbackItem> items = cashbackItemRepository.getAllActive(cliente);
@@ -120,6 +121,10 @@ public class CashbackService {
 			CashbackItem newItem = new CashbackItem();
 			newItem.setCliente(cliente);
 			newItem.setValor(total);
+			
+			ConfiguracaoCashback cashbackConfig = configCashbackRepository.findActiveConfiguration();
+			newItem.setDtExpiracao(LocalDate.now().plusDays(cashbackConfig.getDiasValidade()));
+			cashbackItemRepository.save(newItem);
 		}
 		
 		CashbackToken newToken = new CashbackToken();

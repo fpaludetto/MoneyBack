@@ -69,6 +69,7 @@ public class CompraController  {
 			CashbackToken token = cashbackService.findCachbackActiveClientToken(cliente, item.getCashbackToken().getId());
 			
 			item.setValorCashback(token.getValor());
+			item.setCashbackToken(token);
 			item.setValorTotal(item.getValorTotal() - item.getValorCashback());
 			cashbackService.setTokenUsed(token);
 		}
